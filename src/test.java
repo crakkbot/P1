@@ -13,6 +13,7 @@ public class test {
         try(Scanner scanner = new Scanner(new File(System.getProperty("user.dir") + "/data/junctions.csv"), "UTF-8")) {
             scanner.useDelimiter(";|\\n");
             int counter = 0;
+            
             while(scanner.hasNext()){
                 //System.out.print(scanner.next()+"|");
                 //scanner.next();

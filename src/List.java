@@ -62,10 +62,13 @@ public class List {
     public void findNumberOfTrainssationsAroundAirport(int numberTrainstations, double radius) {
         Data n = head;
         int airports = 0;
-        while (n != null && n.getTyp().equals("AIRPORT")) {
-            if (numberOfTrainstationsinRadius(n.getxCord(), n.getyCord(), radius) == numberTrainstations) {
-                airports++;
+        while (n != null) {
+            if(n.getTyp().equals("AIRPORT")){
+                if (numberOfTrainstationsinRadius(n.getxCord(), n.getyCord(), radius) >= numberTrainstations) {
+                    airports++;
             }
+            }
+            n = n.getNext();
         }
         System.out.println("Airports with at least "+ numberTrainstations+" Trainstations less than " +radius+" units away");
         System.out.println("    >"+airports);

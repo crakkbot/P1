@@ -13,7 +13,7 @@ public class test {
         try(Scanner scanner = new Scanner(new File(System.getProperty("user.dir") + "/data/junctions.csv"), "UTF-8")) {
             scanner.useDelimiter(";|\\n");
             int counter = 0;
-            
+
             while(scanner.hasNext()){
                 //System.out.print(scanner.next()+"|");
                 //scanner.next();
@@ -44,9 +44,11 @@ public class test {
 // junctions.csv wurde nicht gefunden
             System.exit(1);
         }
-        System.out.println(naivList.getLengthOfList());
-        naivList.print();
-
+        //System.out.println(naivList.getLengthOfList());
+        //naivList.print();
+        naivList.numberOfPointsinRadius(1919.54657,5813.29982,100);
+        naivList.numberOfPointsinRadius(0,0,10000);
+        naivList.findNumberOfTrainssationsAroundAirport(20,15);
 
     }
 }

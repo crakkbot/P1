@@ -2,18 +2,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class test {
+public class TestNaive {
     public static void main(String[] args) {
         String name = "";
         String typ = "";
         double xCord = 0.0;
         double yCord = 0.0;
-        System.out.println("Test");
+        System.out.println("Test naive data structure, simple assoc list:");
         List naivList = new List();
         try(Scanner scanner = new Scanner(new File(System.getProperty("user.dir") + "/data/junctions.csv"), "UTF-8")) {
             scanner.useDelimiter(";|\\n");
             int counter = 0;
-
             while(scanner.hasNext()){
                 //System.out.print(scanner.next()+"|");
                 //scanner.next();
@@ -48,7 +47,11 @@ public class test {
         //naivList.print();
         naivList.numberOfPointsinRadius(1818.54657,5813.29982,100);
         naivList.numberOfPointsinRadius(0,0,10000);
+        //Zeit messen
+        long startTime = System.currentTimeMillis();
         naivList.findNumberOfTrainssationsAroundAirport(20,15);
-
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.println(elapsedTime/1000);
     }
 }

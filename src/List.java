@@ -1,14 +1,16 @@
 public class List {
     private Data head;
+    private Data last;
     private int lengthOfList;
 
     public void add(Data d) {
         if (head == null) {
             head = new Data(d);
+            last = head;
         } else {
-            Data temp = head;
-            head = new Data(d);
-            head.setNext(temp);
+            Data temp = last;
+            last = new Data(d);
+            temp.setNext(last);
         }
         lengthOfList++;
     }

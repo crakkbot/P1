@@ -43,15 +43,20 @@ public class TestNaive {
 // junctions.csv wurde nicht gefunden
             System.exit(1);
         }
-        //System.out.println(naivList.getLengthOfList());
+        System.out.println(naivList.getLengthOfList());
         //naivList.print();
         naivList.numberOfPointsinRadius(1818.54657,5813.29982,100);
         naivList.numberOfPointsinRadius(0,0,10000);
         //Zeit messen
         long startTime = System.currentTimeMillis();
-        naivList.findNumberOfTrainssationsAroundAirport(20,15);
+        //naivList.findNumberOfTrainssationsAroundAirport(20,15);
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;
         System.out.println(elapsedTime/1000);
+        System.out.println(naivList.getMinX());
+        System.out.println(naivList.getMinY());
+        System.out.println(naivList.getMaxX());
+        System.out.println(naivList.getMaxY());
+
     }
 }

@@ -44,6 +44,8 @@ public class TestComplex {
         }
         Grid g1 = new Grid(naivList);
         g1.analyzeBuckets();
+        g1.numberOfPointsinRadius(0,0,10000);
+        g1.numberOfPointsinRadius(1818.54657,5813.29982,100);
 
 
     }

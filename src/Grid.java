@@ -6,6 +6,8 @@ private List[][] grid;
     // das Grid ist um diese Werte verschoben um die Rechnung zu vereinfachen, damit sind nur positve Koordinaten drinnen und beim Aulsen muss um diesen Faktor korrigiert werden
 private double xStart;
 private double yStart;
+private double xSteps;
+private double ySteps;
 
 public Grid(List list){
     double minX = list.getMinX();
@@ -16,34 +18,34 @@ public Grid(List list){
     double maxY = list.getMaxY();
     numberOfData = list.getLengthOfList();
     buckets = (int)Math.ceil(Math.sqrt(numberOfData));
-    buckets = 1000;
     grid = new List[buckets][buckets];
-    double stepsXDir = (Math.abs(minX) + maxX)/buckets;
-    double stepsYDir = (Math.abs(minY) + maxY)/buckets;
-    createBuckets(stepsXDir,stepsYDir);
-    hashPoints(list, stepsXDir, stepsYDir);
+    xSteps = (Math.abs(minX) + maxX)/buckets;
+    ySteps = (Math.abs(minY) + maxY)/buckets;
+    createBuckets();
+    hashPoints(list);
 
 
 }
-private void createBuckets(double stepsXDir, double stepsYDir){
+private void createBuckets(){
     //create buckets
         for (int i = 0; i < buckets; i++) {
             for (int j = 0; j < buckets; j++) {
-                double x1 = i * stepsXDir;
-                double x2 = x1 +stepsXDir;
-                double y1 = j * stepsYDir;
-                double y2 = y1 + stepsYDir;
+                double x1 = i * xSteps;
+                double x2 = x1 +xSteps;
+                double y1 = j * ySteps;
+                double y2 = y1 + ySteps;
                 grid[i][j] = new List(x1,x2,y1,y2);
             }
     }
 }
-private void hashPoints(List list,double stepsXDir, double stepsYdir){
+private void hashPoints(List list){
     Data n = list.getHead();
     while (n != null){
         //Errechne Index und
         //verschiebe X und Y Koordinate ins Positive, da Array von 0 startet
-        int i = (int)((xStart + n.getxCord())/stepsXDir);
-        int j = (int)((yStart + n.getyCord())/stepsYdir);
+        int i = (int)((xStart + n.getxCord())/xSteps);
+        int j = (int)((yStart + n.getyCord())/ySteps);
+        //falls die größten Elemente ausgewählt werden hätte man eine IndexOutOfBoundaryException
         if( j == buckets){
             j--;
         }
@@ -71,5 +73,43 @@ public void analyzeBuckets(){
     System.out.println("Bumber of empty buckets: " + emptyBuckets);
     System.out.println("Max length of a bucket: " + maxLenthOfBucket);
 }
+    public void numberOfPointsinRadius(double xCordP, double yCordP, double radius) {
+        int airports = 0;
+        int trainstations = 0;
+        //get section of Point
+        int iPoint = (int) ((xCordP + xStart) / xSteps);
+        int jPoint = (int) ((yCordP + yStart) / ySteps);
+        //Indizizesberechnung von dem am weitesten entfernten Punkt
+        int iLeft = (int) ((xCordP + xStart - radius) / xSteps), iRight =(int) ((xCordP + xStart + radius) / xSteps);
+        int iMax = Math.max(iLeft,iRight);
+        int jUp = (int) ((yCordP + yStart + radius) / ySteps),jDown = (int) ((yCordP + yStart - radius) / ySteps);
+        int jMax = Math.max(jUp,jDown);
+        int xrange = (iMax - iPoint) * 2;
+        int yrange = (jMax - jPoint) * 2;
+        //Check distance for every hitted bucket
+        for (int i = xrange; i <= iMax; i++) {
+            for (int j = yrange; j <= jMax; j++) {
+                boolean inBoundsI = (i >= 0) && (i < grid.length);
+                boolean inBoundsJ = (j >= 0) && (j < grid.length);
+                Data n = null;
+                if(inBoundsI && inBoundsJ){
+                    n = grid[i][j].getHead();
+                }
+                while (n != null) {
+                    double distance = Math.sqrt(Math.pow(yCordP - n.getyCord(), 2) + Math.pow(xCordP - n.getxCord(), 2));
+                    if (Math.abs(distance) < radius) {
+                        if (n.getTyp().equals("AIRPORT")) {
+                            airports++;
+                        } else {
+                            trainstations++;
+                        }
+                    }
+                    n = n.getNext();
+                }
+            }
+        }
+        System.out.println("Junctions less than " + radius + " units away from x=" + xCordP + " and y=" + yCordP);
+        System.out.println("  > Airports: " + airports + "   Trainstations: " + trainstations);
 
+    }
 }

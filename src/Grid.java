@@ -110,4 +110,52 @@ public void analyzeBuckets(){
         System.out.println("  > Airports: " + airports + "   Trainstations: " + trainstations);
 
     }
+    //Für zweite Funktion
+    public int numberOfTrainstationsinRadiusComplex(double xCordP, double yCordP, double radius) {
+        int trainstations = 0;
+        //get section of Point
+        int iPoint = (int) ((xCordP + xStart) / xSteps);
+        int jPoint = (int) ((yCordP + yStart) / ySteps);
+        //Indizizesberechnung von dem am weitesten entfernten Punkt
+        int iMax = (int) ((xCordP + xStart + radius) / xSteps);
+        int jMax = (int) ((yCordP + yStart + radius) / ySteps);
+        int xrange = (iMax - 2*iPoint);
+        int yrange = (jMax - 2*jPoint);
+        //Check distance for every hitted bucket
+        for (int i = xrange; i <= iMax; i++) {
+            for (int j = yrange; j <= jMax; j++) {
+                boolean inBoundsI = (i >= 0) && (i < grid.length);
+                boolean inBoundsJ = (j >= 0) && (j < grid.length);
+                Data n = null;
+                if(inBoundsI && inBoundsJ){
+                    n = grid[i][j].getHead();
+                }
+                while (n != null) {
+                    double distance = Math.sqrt(Math.pow(yCordP - n.getyCord(), 2) + Math.pow(xCordP - n.getxCord(), 2));
+                    if (Math.abs(distance) < radius) {
+                        if (n.getTyp().equals("TRAINSTATION")) {
+                            trainstations++;
+                        }
+                    }
+                    n = n.getNext();
+                }
+            }
+        }
+        return trainstations;
+    }
+    public void findNumberOfTrainssationsAroundAirport(List list, int numberTrainstations, double radius) {
+        Data n = list.getHead();
+        int airports = 0;
+        while (n != null) {
+            if(n.getTyp().equals("AIRPORT")){
+                if (numberOfTrainstationsinRadiusComplex(n.getxCord(), n.getyCord(), radius) >= numberTrainstations) {
+                    airports++;
+                }
+            }
+            n = n.getNext();
+        }
+        System.out.println("Airports with at least "+ numberTrainstations+" Trainstations less than " +radius+" units away");
+        System.out.println("    >"+airports);
+    }
+
 }

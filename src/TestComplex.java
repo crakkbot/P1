@@ -46,6 +46,11 @@ public class TestComplex {
         g1.analyzeBuckets();
         g1.numberOfPointsinRadius(0,0,10000);
         g1.numberOfPointsinRadius(1818.54657,5813.29982,100);
+        long startTime = System.currentTimeMillis();
+        g1.findNumberOfTrainssationsAroundAirport(naivList,20,15);
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.println(elapsedTime/1000.0);
 
 
     }

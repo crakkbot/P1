@@ -53,10 +53,6 @@ public class TestNaive {
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;
         System.out.println(elapsedTime/1000);
-        System.out.println(naivList.getMinX());
-        System.out.println(naivList.getMinY());
-        System.out.println(naivList.getMaxX());
-        System.out.println(naivList.getMaxY());
 
     }
 }

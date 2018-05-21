@@ -80,12 +80,10 @@ public void analyzeBuckets(){
         int iPoint = (int) ((xCordP + xStart) / xSteps);
         int jPoint = (int) ((yCordP + yStart) / ySteps);
         //Indizizesberechnung von dem am weitesten entfernten Punkt
-        int iLeft = (int) ((xCordP + xStart - radius) / xSteps), iRight =(int) ((xCordP + xStart + radius) / xSteps);
-        int iMax = Math.max(iLeft,iRight);
-        int jUp = (int) ((yCordP + yStart + radius) / ySteps),jDown = (int) ((yCordP + yStart - radius) / ySteps);
-        int jMax = Math.max(jUp,jDown);
-        int xrange = (iMax - iPoint) * 2;
-        int yrange = (jMax - jPoint) * 2;
+        int iMax = (int) ((xCordP + xStart + radius) / xSteps);
+        int jMax = (int) ((yCordP + yStart + radius) / ySteps);
+        int xrange = (iMax - 2*iPoint);
+        int yrange = (jMax - 2*jPoint);
         //Check distance for every hitted bucket
         for (int i = xrange; i <= iMax; i++) {
             for (int j = yrange; j <= jMax; j++) {

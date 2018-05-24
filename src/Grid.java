@@ -46,6 +46,7 @@ private void hashPoints(List list){
         int i = (int)((xStart + n.getxCord())/xSteps);
         int j = (int)((yStart + n.getyCord())/ySteps);
         //falls die größten Elemente ausgewählt werden hätte man eine IndexOutOfBoundaryException
+        //Ist bei Suche abgedeckt
         if( j == buckets){
             j--;
         }
@@ -76,17 +77,14 @@ public void analyzeBuckets(){
     public void numberOfPointsinRadius(double xCordP, double yCordP, double radius) {
         int airports = 0;
         int trainstations = 0;
-        //get section of Point
-        int iPoint = (int) ((xCordP + xStart) / xSteps);
-        int jPoint = (int) ((yCordP + yStart) / ySteps);
-        //Indizizesberechnung von dem am weitesten entfernten Punkt
+        //Indizizesberechnung von Suchraster
         int iMax = (int) ((xCordP + xStart + radius) / xSteps);
         int jMax = (int) ((yCordP + yStart + radius) / ySteps);
-        int xrange = (iMax - 2*iPoint);
-        int yrange = (jMax - 2*jPoint);
+        int xMin = (int)((xCordP + xStart - radius) / xSteps);
+        int yMin = (int)((yCordP + yStart - radius) / ySteps);
         //Check distance for every hitted bucket
-        for (int i = xrange; i <= iMax; i++) {
-            for (int j = yrange; j <= jMax; j++) {
+        for (int i = xMin; i <= iMax; i++) {
+            for (int j = yMin; j <= jMax; j++) {
                 boolean inBoundsI = (i >= 0) && (i < grid.length);
                 boolean inBoundsJ = (j >= 0) && (j < grid.length);
                 Data n = null;
@@ -113,22 +111,28 @@ public void analyzeBuckets(){
     //Für zweite Funktion
     public int numberOfTrainstationsinRadiusComplex(double xCordP, double yCordP, double radius) {
         int trainstations = 0;
-        //get section of Point
-        int iPoint = (int) ((xCordP + xStart) / xSteps);
-        int jPoint = (int) ((yCordP + yStart) / ySteps);
-        //Indizizesberechnung von dem am weitesten entfernten Punkt
+        //Indizizesberechnung von Suchraster
         int iMax = (int) ((xCordP + xStart + radius) / xSteps);
         int jMax = (int) ((yCordP + yStart + radius) / ySteps);
-        int xrange = (iMax - 2*iPoint);
-        int yrange = (jMax - 2*jPoint);
-        //Check distance for every hitted bucket
-        for (int i = xrange; i <= iMax; i++) {
-            for (int j = yrange; j <= jMax; j++) {
+        int xMin = (int)((xCordP + xStart - radius) / xSteps);
+        int yMin = (int)((yCordP + yStart - radius) / ySteps);
+        //Raster wird mittels 2 verschachtelten Schleifen durchsucht
+        for (int i = xMin; i <= iMax; i++) {
+            for (int j = yMin; j <= jMax; j++) {
+                //Adeckung Grenz- und Randfälle, verhindert IndexOutOfBoundary
                 boolean inBoundsI = (i >= 0) && (i < grid.length);
                 boolean inBoundsJ = (j >= 0) && (j < grid.length);
+
                 Data n = null;
+                //boolean inRadius = false;
+
                 if(inBoundsI && inBoundsJ){
                     n = grid[i][j].getHead();
+                    //Verbesserung Sandi
+                    //double minDistX = Math.min(Math.abs(grid[i][j].x1-(xCordP+xStart)), Math.abs(grid[i][j].x2-(xCordP+xStart)));
+                    //double minDistY = Math.min(Math.abs(grid[i][j].y1-(yCordP+yStart)), Math.abs(grid[i][j].y2-(yCordP+yStart)));
+                    //double minDistance = Math.sqrt(Math.pow(minDistX, 2) + Math.pow(minDistY, 2));
+                    //inRadius = minDistance < radius;
                 }
                 while (n != null) {
                     double distance = Math.sqrt(Math.pow(yCordP - n.getyCord(), 2) + Math.pow(xCordP - n.getxCord(), 2));

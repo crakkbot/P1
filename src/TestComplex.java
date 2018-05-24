@@ -52,6 +52,6 @@ public class TestComplex {
         long elapsedTime = stopTime - startTime;
         System.out.println(elapsedTime/1000.0);
 
-
+    //Liste auf airports filtern, return einfügen und kopierte Methode löschen, Typ als enum, nur auf Intersection buckets prüfen
     }
 }

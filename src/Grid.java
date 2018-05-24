@@ -3,13 +3,16 @@ public class Grid{
 private  static int numberOfData;
 private static int buckets;
 private List[][] grid;
-    // das Grid ist um diese Werte verschoben um die Rechnung zu vereinfachen, damit sind nur positve Koordinaten drinnen und beim Aulsen muss um diesen Faktor korrigiert werden
+// das Grid ist um diese Werte xStart und yStart verschoben um die Rechnung zu vereinfachen,
+// damit sind nur positve Koordinaten drinnen und beim Aulesen muss um diesen Faktor korrigiert werden
 private double xStart;
 private double yStart;
+//Schrittweite in den Buckets, jeweils x und y Richtung
 private double xSteps;
 private double ySteps;
 
 public Grid(List list){
+    //Initialisiere Varibalen im Konstruktor
     double minX = list.getMinX();
     xStart = Math.abs(minX) ;
     double minY = list.getMinY();
@@ -18,6 +21,7 @@ public Grid(List list){
     double maxY = list.getMaxY();
     numberOfData = list.getLengthOfList();
     buckets = (int)Math.ceil(Math.sqrt(numberOfData));
+    //buckets = 200;
     grid = new List[buckets][buckets];
     xSteps = (Math.abs(minX) + maxX)/buckets;
     ySteps = (Math.abs(minY) + maxY)/buckets;

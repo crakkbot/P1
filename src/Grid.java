@@ -82,6 +82,8 @@ public void analyzeBuckets(){
         int airports = 0;
         int trainstations = 0;
         //Indizizesberechnung von Suchraster
+        int xBucket = (int) ((xCordP + xStart)/ xSteps);
+        int yBucket = (int) ((yCordP + yStart) / ySteps);
         int iMax = (int) ((xCordP + xStart + radius) / xSteps);
         int jMax = (int) ((yCordP + yStart + radius) / ySteps);
         int xMin = (int)((xCordP + xStart - radius) / xSteps);
@@ -92,19 +94,32 @@ public void analyzeBuckets(){
                 boolean inBoundsI = (i >= 0) && (i < grid.length);
                 boolean inBoundsJ = (j >= 0) && (j < grid.length);
                 Data n = null;
-                if(inBoundsI && inBoundsJ){
+                if(inBoundsI && inBoundsJ && grid[i][j].getHead()!=null){
                     n = grid[i][j].getHead();
-                }
-                while (n != null) {
-                    double distance = Math.sqrt(Math.pow(yCordP - n.getyCord(), 2) + Math.pow(xCordP - n.getxCord(), 2));
-                    if (Math.abs(distance) < radius) {
-                        if (n.getTyp().equals("AIRPORT")) {
-                            airports++;
-                        } else {
-                            trainstations++;
-                        }
+                    switch (inRadius(xCordP, yCordP, radius, i, j)){
+                        case 1:
+                            while (n != null) {
+                                if (n.getTyp().equals("AIRPORT")) {
+                                    airports++;
+                                } else {
+                                    trainstations++;
+                                }
+                                n = n.getNext();
+                            }
+                            break;
+                        case 2:
+                            while (n != null) {
+                                double distance = Math.sqrt(Math.pow(yCordP - n.getyCord(), 2) + Math.pow(xCordP - n.getxCord(), 2));
+                                if (Math.abs(distance) < radius) {
+                                    if (n.getTyp().equals("AIRPORT")) {
+                                        airports++;
+                                    } else {
+                                        trainstations++;
+                                    }
+                                }
+                                n = n.getNext();
+                            }
                     }
-                    n = n.getNext();
                 }
             }
         }
@@ -126,26 +141,30 @@ public void analyzeBuckets(){
                 //Adeckung Grenz- und Randfälle, verhindert IndexOutOfBoundary
                 boolean inBoundsI = (i >= 0) && (i < grid.length);
                 boolean inBoundsJ = (j >= 0) && (j < grid.length);
-
                 Data n = null;
-                //boolean inRadius = false;
-
-                if(inBoundsI && inBoundsJ){
+                if(inBoundsI && inBoundsJ && grid[i][j].getHead()!=null){
                     n = grid[i][j].getHead();
-                    //Verbesserung Sandi
-                    //double minDistX = Math.min(Math.abs(grid[i][j].x1-(xCordP+xStart)), Math.abs(grid[i][j].x2-(xCordP+xStart)));
-                    //double minDistY = Math.min(Math.abs(grid[i][j].y1-(yCordP+yStart)), Math.abs(grid[i][j].y2-(yCordP+yStart)));
-                    //double minDistance = Math.sqrt(Math.pow(minDistX, 2) + Math.pow(minDistY, 2));
-                    //inRadius = minDistance < radius;
-                }
-                while (n != null) {
-                    double distance = Math.sqrt(Math.pow(yCordP - n.getyCord(), 2) + Math.pow(xCordP - n.getxCord(), 2));
-                    if (Math.abs(distance) < radius) {
-                        if (n.getTyp().equals("TRAINSTATION")) {
-                            trainstations++;
-                        }
+                    switch (inRadius(xCordP, yCordP, radius, i, j)){
+                        case 1:
+                            while (n != null) {
+                                if (n.getTyp().equals("TRAINSTATION")) {
+                                    trainstations++;
+                                }
+                                n = n.getNext();
+                            }
+                            break;
+                        case 2:
+                            while (n != null) {
+                                double distance = Math.sqrt(Math.pow(yCordP - n.getyCord(), 2) + Math.pow(xCordP - n.getxCord(), 2));
+                                if (Math.abs(distance) < radius) {
+                                    if (n.getTyp().equals("TRAINSTATION")) {
+                                        trainstations++;
+                                    }
+                                }
+                                n = n.getNext();
+                            }
+                            break;
                     }
-                    n = n.getNext();
                 }
             }
         }
@@ -166,4 +185,26 @@ public void analyzeBuckets(){
         System.out.println("    >"+airports);
     }
 
+    public int inRadius(double xCordP, double yCordP, double radius, int i, int j){
+        int xBucket = (int) ((xCordP + xStart)/ xSteps);
+        int yBucket = (int) ((yCordP + yStart) / ySteps);
+        //Find Intersection-Buckets:
+        double dist1 = Math.sqrt(Math.pow(yCordP + yStart - grid[i][j].y1, 2) + Math.pow(xCordP + xStart - grid[i][j].x1, 2));
+        double dist2 = Math.sqrt(Math.pow(yCordP + yStart - grid[i][j].y1, 2) + Math.pow(xCordP + xStart - grid[i][j].x2, 2));
+        double dist3 = Math.sqrt(Math.pow(yCordP + yStart - grid[i][j].y2, 2) + Math.pow(xCordP + xStart - grid[i][j].x1, 2));
+        double dist4 = Math.sqrt(Math.pow(yCordP + yStart - grid[i][j].y2, 2) + Math.pow(xCordP + xStart - grid[i][j].x2, 2));
+        if(dist1<radius && dist2<radius && dist3<radius && dist4<radius){
+            return 1;
+        }
+        if(dist1<radius || dist2<radius || dist3<radius || dist4<radius || (i==xBucket && j==yBucket)){
+            return 2;
+        }
+        if(i==xBucket){
+            return 2;
+        }
+        if(j==yBucket){
+            return 2;
+        }
+        return 0;
+    }
 }

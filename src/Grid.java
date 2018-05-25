@@ -78,6 +78,10 @@ public void analyzeBuckets(){
     System.out.println("Bumber of empty buckets: " + emptyBuckets);
     System.out.println("Max length of a bucket: " + maxLenthOfBucket);
 }
+    public int[] numberOfPointsinRadius(double xCordP, double yCordP, double radius) {
+        int[] output = new int[2];
+        output[0] = 0; // airports
+        output[1] = 0; // Trainstation
     public void numberOfPointsinRadius(double xCordP, double yCordP, double radius) {
         int airports = 0;
         int trainstations = 0;
@@ -99,64 +103,24 @@ public void analyzeBuckets(){
                     double distance = Math.sqrt(Math.pow(yCordP - n.getyCord(), 2) + Math.pow(xCordP - n.getxCord(), 2));
                     if (Math.abs(distance) < radius) {
                         if (n.getTyp().equals("AIRPORT")) {
-                            airports++;
+                            output[0]++;
                         } else {
-                            trainstations++;
+                            output[1]++;
                         }
                     }
                     n = n.getNext();
                 }
             }
         }
-        System.out.println("Junctions less than " + radius + " units away from x=" + xCordP + " and y=" + yCordP);
-        System.out.println("  > Airports: " + airports + "   Trainstations: " + trainstations);
+        return output;
 
-    }
-    //Für zweite Funktion
-    public int numberOfTrainstationsinRadiusComplex(double xCordP, double yCordP, double radius) {
-        int trainstations = 0;
-        //Indizizesberechnung von Suchraster
-        int iMax = (int) ((xCordP + xStart + radius) / xSteps);
-        int jMax = (int) ((yCordP + yStart + radius) / ySteps);
-        int xMin = (int)((xCordP + xStart - radius) / xSteps);
-        int yMin = (int)((yCordP + yStart - radius) / ySteps);
-        //Raster wird mittels 2 verschachtelten Schleifen durchsucht
-        for (int i = xMin; i <= iMax; i++) {
-            for (int j = yMin; j <= jMax; j++) {
-                //Adeckung Grenz- und Randfälle, verhindert IndexOutOfBoundary
-                boolean inBoundsI = (i >= 0) && (i < grid.length);
-                boolean inBoundsJ = (j >= 0) && (j < grid.length);
-
-                Data n = null;
-                //boolean inRadius = false;
-
-                if(inBoundsI && inBoundsJ){
-                    n = grid[i][j].getHead();
-                    //Verbesserung Sandi
-                    //double minDistX = Math.min(Math.abs(grid[i][j].x1-(xCordP+xStart)), Math.abs(grid[i][j].x2-(xCordP+xStart)));
-                    //double minDistY = Math.min(Math.abs(grid[i][j].y1-(yCordP+yStart)), Math.abs(grid[i][j].y2-(yCordP+yStart)));
-                    //double minDistance = Math.sqrt(Math.pow(minDistX, 2) + Math.pow(minDistY, 2));
-                    //inRadius = minDistance < radius;
-                }
-                while (n != null) {
-                    double distance = Math.sqrt(Math.pow(yCordP - n.getyCord(), 2) + Math.pow(xCordP - n.getxCord(), 2));
-                    if (Math.abs(distance) < radius) {
-                        if (n.getTyp().equals("TRAINSTATION")) {
-                            trainstations++;
-                        }
-                    }
-                    n = n.getNext();
-                }
-            }
-        }
-        return trainstations;
     }
     public void findNumberOfTrainssationsAroundAirport(List list, int numberTrainstations, double radius) {
         Data n = list.getHead();
         int airports = 0;
         while (n != null) {
             if(n.getTyp().equals("AIRPORT")){
-                if (numberOfTrainstationsinRadiusComplex(n.getxCord(), n.getyCord(), radius) >= numberTrainstations) {
+                if (numberOfPointsinRadius(n.getxCord(), n.getyCord(), radius) >= numberTrainstations) {
                     airports++;
                 }
             }

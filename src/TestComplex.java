@@ -44,13 +44,17 @@ public class TestComplex {
         }
         Grid g1 = new Grid(naivList);
         g1.analyzeBuckets();
-        g1.numberOfPointsinRadius(0,0,10000);
-        g1.numberOfPointsinRadius(1818.54657,5813.29982,100);
+        int[] test1 = g1.numberOfPointsinRadius(0,0,10000);
+        System.out.println("  > Airports: " + test1[0]+ "   Trainstations: " + test1[1]);
+        int[] test2 = g1.numberOfPointsinRadius(1818.54657,5813.29982,100);
+        System.out.println("  > Airports: " + test2[0]+ "   Trainstations: " + test2[1]);
+        System.out.println("-----------------Test zweite Abfrage--------------------------");
         long startTime = System.currentTimeMillis();
         g1.findNumberOfTrainssationsAroundAirport(naivList,20,15);
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;
-        System.out.println(elapsedTime/1000.0);
+        System.out.println("Dauer der Abfrage in Sekunden: " + elapsedTime/1000.0);
+
 
     //Liste auf airports filtern, return einfügen und kopierte Methode löschen, Typ als enum, nur auf Intersection buckets prüfen
     }

@@ -50,7 +50,7 @@ public class TestComplex {
         System.out.println("  > Airports: " + test2[0]+ "   Trainstations: " + test2[1]);
         System.out.println("-----------------Test zweite Abfrage--------------------------");
         long startTime = System.currentTimeMillis();
-        g1.findNumberOfTrainssationsAroundAirport(naivList,100,1000);
+        g1.findNumberOfTrainssationsAroundAirport(naivList,100,10000);
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;
         System.out.println("Dauer der Abfrage in Sekunden: " + elapsedTime/1000.0);

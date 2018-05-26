@@ -21,13 +21,13 @@ public class Grid {
         double maxY = list.getMaxY();
         numberOfData = list.getLengthOfList();
         buckets = (int) Math.ceil(Math.sqrt(numberOfData));
-
         grid = new List[buckets][buckets];
         xSteps = (Math.abs(minX) + maxX) / buckets;
         ySteps = (Math.abs(minY) + maxY) / buckets;
         createBuckets();
         hashPoints(list);
     }
+    //Zweiter Konstruktor für zweite Abfrage, berücksichtigt große Radien
     public Grid(List list,double radius) {
         //Initialisiere Varibalen im Konstruktor
         double minX = list.getMinX();
@@ -98,7 +98,7 @@ public class Grid {
         System.out.println("Bumber of empty buckets: " + emptyBuckets);
         System.out.println("Max length of a bucket: " + maxLenthOfBucket);
     }
-
+    //1.Abfrage
     public int[] numberOfPointsinRadius(double xCordP, double yCordP, double radius) {
         int[] output = new int[2];
         output[0] = 0; // airports
@@ -120,16 +120,6 @@ public class Grid {
                             //Füge direkt hinzu ohne Überprüfung
                             output[0]+=grid[i][j].getNumberAirports();
                             output[1]+=grid[i][j].getNumberTrainstations();
-                            /*
-                            while (n != null) {
-                                if (n.getTyp().equals("AIRPORT")) {
-                                    output[0]++;
-                                } else {
-                                    output[1]++;
-                                }
-                                n = n.getNext();
-                            }
-                            */
                             break;
                         case 2:
                             while (n != null) {
@@ -149,7 +139,7 @@ public class Grid {
         }
         return output;
     }
-
+    //2. Abfrage
     public void findNumberOfTrainssationsAroundAirport(List list, int numberTrainstations, double radius) {
         Grid temp = new Grid(list,radius);
         Data n = list.getHead();

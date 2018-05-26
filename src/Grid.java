@@ -87,8 +87,6 @@ public class Grid {
         output[0] = 0; // airports
         output[1] = 0; // Trainstation
         //Indizizesberechnung von Suchraster
-        int xBucket = (int) ((xCordP + xStart) / xSteps);
-        int yBucket = (int) ((yCordP + yStart) / ySteps);
         int iMax = (int) ((xCordP + xStart + radius) / xSteps);
         int jMax = (int) ((yCordP + yStart + radius) / ySteps);
         int xMin = (int) ((xCordP + xStart - radius) / xSteps);

@@ -2,7 +2,9 @@ public class List {
     private Data head;
     private Data last;
     private int lengthOfList;
-    double x1, x2, y1, y2;
+    private double x1, x2, y1, y2;
+    private int numberAirports;
+    private int numberTrainstations;
 
 
     public List(){
@@ -24,6 +26,11 @@ public class List {
             temp.setNext(last);
         }
         lengthOfList++;
+        if (d.getTyp().equals("AIRPORT")) {
+            numberAirports++;
+        } else {
+            numberTrainstations++;
+        }
     }
 
     public int getLengthOfList() {
@@ -150,5 +157,13 @@ public class List {
 
     public double getY2() {
         return y2;
+    }
+
+    public int getNumberTrainstations() {
+        return numberTrainstations;
+    }
+
+    public int getNumberAirports() {
+        return numberAirports;
     }
 }

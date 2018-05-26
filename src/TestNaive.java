@@ -49,7 +49,7 @@ public class TestNaive {
         naivList.numberOfPointsinRadius(0,0,10000);
         //Zeit messen
         long startTime = System.currentTimeMillis();
-        //naivList.findNumberOfTrainssationsAroundAirport(20,15);
+        naivList.findNumberOfTrainssationsAroundAirport(20,15000);
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;
         System.out.println(elapsedTime/1000);

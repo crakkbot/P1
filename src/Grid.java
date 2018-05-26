@@ -98,11 +98,14 @@ public class Grid {
             for (int j = yMin; j <= jMax; j++) {
                 boolean inBoundsI = (i >= 0) && (i < grid.length);
                 boolean inBoundsJ = (j >= 0) && (j < grid.length);
-                Data n = null;
                 if (inBoundsI && inBoundsJ) {
-                    n = grid[i][j].getHead();
+                    Data n = grid[i][j].getHead();
                     switch (inRadius(xCordP, yCordP, radius, i, j)) {
                         case 1:
+                            //Füge direkt hinzu ohne Überprüfung
+                            output[0]+=grid[i][j].getNumberAirports();
+                            output[1]+=grid[i][j].getNumberTrainstations();
+                            /*
                             while (n != null) {
                                 if (n.getTyp().equals("AIRPORT")) {
                                     output[0]++;
@@ -111,6 +114,7 @@ public class Grid {
                                 }
                                 n = n.getNext();
                             }
+                            */
                             break;
                         case 2:
                             while (n != null) {
@@ -150,10 +154,10 @@ public class Grid {
         int xBucket = (int) ((xCordP + xStart) / xSteps);
         int yBucket = (int) ((yCordP + yStart) / ySteps);
         //Find Intersection-Buckets:
-        double dist1 = Math.sqrt(Math.pow(yCordP + yStart - grid[i][j].y1, 2) + Math.pow(xCordP + xStart - grid[i][j].x1, 2));
-        double dist2 = Math.sqrt(Math.pow(yCordP + yStart - grid[i][j].y1, 2) + Math.pow(xCordP + xStart - grid[i][j].x2, 2));
-        double dist3 = Math.sqrt(Math.pow(yCordP + yStart - grid[i][j].y2, 2) + Math.pow(xCordP + xStart - grid[i][j].x1, 2));
-        double dist4 = Math.sqrt(Math.pow(yCordP + yStart - grid[i][j].y2, 2) + Math.pow(xCordP + xStart - grid[i][j].x2, 2));
+        double dist1 = Math.sqrt(Math.pow(yCordP + yStart - grid[i][j].getY1(), 2) + Math.pow(xCordP + xStart - grid[i][j].getX1(), 2));
+        double dist2 = Math.sqrt(Math.pow(yCordP + yStart - grid[i][j].getY1(), 2) + Math.pow(xCordP + xStart - grid[i][j].getX2(), 2));
+        double dist3 = Math.sqrt(Math.pow(yCordP + yStart - grid[i][j].getY2(), 2) + Math.pow(xCordP + xStart - grid[i][j].getX1(), 2));
+        double dist4 = Math.sqrt(Math.pow(yCordP + yStart - grid[i][j].getY2(), 2) + Math.pow(xCordP + xStart - grid[i][j].getX2(), 2));
         if (dist1 < radius && dist2 < radius && dist3 < radius && dist4 < radius) {
             return 1;
         }

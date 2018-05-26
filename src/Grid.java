@@ -21,14 +21,31 @@ public class Grid {
         double maxY = list.getMaxY();
         numberOfData = list.getLengthOfList();
         buckets = (int) Math.ceil(Math.sqrt(numberOfData));
-        //buckets = 200;
+
         grid = new List[buckets][buckets];
         xSteps = (Math.abs(minX) + maxX) / buckets;
         ySteps = (Math.abs(minY) + maxY) / buckets;
         createBuckets();
         hashPoints(list);
-
-
+    }
+    public Grid(List list,double radius) {
+        //Initialisiere Varibalen im Konstruktor
+        double minX = list.getMinX();
+        xStart = Math.abs(minX);
+        double minY = list.getMinY();
+        yStart = Math.abs(minY);
+        double maxX = list.getMaxX();
+        double maxY = list.getMaxY();
+        numberOfData = list.getLengthOfList();
+        buckets = (int) Math.ceil(Math.sqrt(numberOfData));
+        if(radius > 1000){
+            buckets = buckets/4;
+        }
+        grid = new List[buckets][buckets];
+        xSteps = (Math.abs(minX) + maxX) / buckets;
+        ySteps = (Math.abs(minY) + maxY) / buckets;
+        createBuckets();
+        hashPoints(list);
     }
 
     private void createBuckets() {
@@ -134,11 +151,12 @@ public class Grid {
     }
 
     public void findNumberOfTrainssationsAroundAirport(List list, int numberTrainstations, double radius) {
+        Grid temp = new Grid(list,radius);
         Data n = list.getHead();
         int airports = 0;
         while (n != null) {
             if (n.getTyp().equals("AIRPORT")) {
-                if (numberOfPointsinRadius(n.getxCord(), n.getyCord(), radius)[1] >= numberTrainstations) {
+                if (temp.numberOfPointsinRadius(n.getxCord(), n.getyCord(), radius)[1] >= numberTrainstations) {
                     airports++;
                 }
             }

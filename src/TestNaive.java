@@ -45,8 +45,9 @@ public class TestNaive {
         }
         System.out.println(naivList.getLengthOfList());
         //naivList.print();
-        naivList.numberOfPointsinRadius(1818.54657,5813.29982,100);
-        naivList.numberOfPointsinRadius(0,0,10000);
+        ;
+        System.out.println("  > Airports: " + naivList.numberOfPointsinRadius(1818.54657,5813.29982,100)[0] + "   Trainstations: " + naivList.numberOfPointsinRadius(1818.54657,5813.29982,100)[1]);
+        //naivList.numberOfPointsinRadius(0,0,10000);
         //Zeit messen
         long startTime = System.currentTimeMillis();
         naivList.findNumberOfTrainssationsAroundAirport(20,15000);

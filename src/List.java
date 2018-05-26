@@ -90,38 +90,23 @@ public class List {
         return currentMax;
     }
 
-    public void numberOfPointsinRadius(double xCordP, double yCordP, double radius) {
-        int airports = 0;
-        int trainstations = 0;
+    public int[] numberOfPointsinRadius(double xCordP, double yCordP, double radius) {
+        int[] output = new int[2];
+        output[0] = 0; //airport
+        output[1] = 0; //trainstations
         Data n = head;
         while (n != null) {
             double distance = Math.sqrt(Math.pow(yCordP - n.getyCord(), 2) + Math.pow(xCordP - n.getxCord(), 2));
             if (Math.abs(distance) < radius) {
                 if (n.getTyp().equals("AIRPORT")) {
-                    airports++;
+                    output[0]++;
                 } else {
-                    trainstations++;
+                    output[1]++;
                 }
             }
             n = n.getNext();
         }
-        System.out.println("Junctions less than " + radius + " units away from x=" + xCordP + " and y=" + yCordP);
-        System.out.println("  > Airports: " + airports + "   Trainstations: " + trainstations);
-    }
-
-    public int numberOfTrainstationsinRadius(double xCordP, double yCordP, double radius) {
-        int trainstations = 0;
-        Data n = head;
-        while (n != null) {
-            double distance = Math.sqrt(Math.pow(yCordP - n.getyCord(), 2) + Math.pow(xCordP - n.getxCord(), 2));
-            if (Math.abs(distance) < radius) {
-                if (n.getTyp().equals("TRAINSTATION")) {
-                    trainstations++;
-                }
-            }
-            n = n.getNext();
-        }
-        return trainstations;
+        return output;
     }
 
     public void findNumberOfTrainssationsAroundAirport(int numberTrainstations, double radius) {
@@ -129,7 +114,7 @@ public class List {
         int airports = 0;
         while (n != null) {
             if(n.getTyp().equals("AIRPORT")){
-                if (numberOfTrainstationsinRadius(n.getxCord(), n.getyCord(), radius) >= numberTrainstations) {
+                if (numberOfPointsinRadius(n.getxCord(), n.getyCord(), radius)[1] >= numberTrainstations) {
                     airports++;
             }
             }
